@@ -3,147 +3,860 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VR Exposure Therapy Project</title>
+  <meta name="description" content="VR Chaotic Kitchen - UGA Introduction to Virtual Reality final project." />
+  <title>VR Chaotic Kitchen - Final Project</title>
+
+  <!-- Google Font (optional) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+
   <style>
-    body {
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    :root {
+      --primary: #182848;
+      --primary-light: #4b6cb7;
+      --accent: #f97316;
+      --bg: #f7f7fb;
+      --text-main: #222;
+      --text-muted: #666;
+      --card-bg: #ffffff;
+      --border-subtle: #e2e6f2;
+      --shadow-soft: 0 4px 14px rgba(0, 0, 0, 0.08);
+      --radius-lg: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      background-color: #f8f9fa;
-      color: #333;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
       line-height: 1.6;
     }
 
-    header {
-      background: linear-gradient(135deg, #3b82f6, #06b6d4);
-      color: white;
-      text-align: center;
-      padding: 2rem 1rem;
+    a {
+      color: inherit;
+      text-decoration: none;
     }
 
-    header h1 {
-      margin: 0;
-      font-size: 2rem;
+    /* NAVBAR */
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(24, 40, 72, 0.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+      z-index: 1000;
     }
 
-    main {
-      max-width: 900px;
-      margin: 2rem auto;
-      padding: 0 1rem;
+    .nav-inner {
+      width: 90%;
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.8rem 0;
+    }
+
+    .nav-logo {
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 1rem;
+    }
+
+    .nav-logo span {
+      color: #fbbf24;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 1.3rem;
+      font-size: 0.95rem;
+    }
+
+    .nav-links a {
+      color: rgba(255, 255, 255, 0.9);
+      position: relative;
+      padding-bottom: 0.15rem;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -0.1rem;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(to right, #f97316, #facc15);
+      transition: width 0.18s ease;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    /* LAYOUT HELPERS */
+
+    .container {
+      width: 90%;
+      max-width: 1100px;
+      margin: 0 auto;
     }
 
     section {
-      margin-bottom: 3rem;
+      padding: 4.5rem 0 3rem;
+    }
+
+    h1, h2, h3 {
+      font-weight: 700;
+      letter-spacing: 0.02em;
     }
 
     h2 {
-      border-bottom: 2px solid #3b82f6;
-      padding-bottom: 0.5rem;
-      margin-bottom: 1rem;
-      color: #1e3a8a;
+      font-size: 1.8rem;
+      color: var(--primary);
+      margin-bottom: 1.5rem;
+      position: relative;
+      display: inline-block;
     }
 
-    /* Project Description */
-    #project-description p {
-      font-size: 1.1rem;
-      text-align: justify;
+    h2::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -0.35rem;
+      width: 55px;
+      height: 3px;
+      border-radius: 999px;
+      background: linear-gradient(to right, var(--primary-light), var(--accent));
     }
 
-    /* Photo Gallery */
-    #photo-gallery {
+    .muted {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-soft);
+      padding: 1.7rem;
+    }
+
+    /* HERO */
+
+    header.hero {
+      padding-top: 5.5rem; /* space for navbar */
+      background: linear-gradient(
+          to right,
+          rgba(24, 40, 72, 0.98),
+          rgba(75, 108, 183, 0.95)
+        );
+      color: #fff;
+    }
+
+    .hero-inner {
+      padding: 3.5rem 0 3rem;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: minmax(0, 3fr);
+      gap: 2.5rem;
+      align-items: center;
+    }
+
+    @media (min-width: 900px) {
+      .hero-inner {
+        grid-template-columns: minmax(0, 3.5fr) minmax(0, 2.5fr);
+      }
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 0.9rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.5);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .hero-badge span.icon {
+      font-size: 1rem;
+    }
+
+    .hero-title {
+      font-size: clamp(2.3rem, 4vw, 2.9rem);
+      margin-top: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-highlight {
+      color: #fed7aa;
+    }
+
+    .hero-subtitle {
+      font-size: 1rem;
+      max-width: 36rem;
+      opacity: 0.92;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      margin: 1.4rem 0 1.5rem;
+      font-size: 0.85rem;
+    }
+
+    .hero-pill {
+      padding: 0.3rem 0.8rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.55);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.9rem;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.7rem 1.4rem;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(to right, #f97316, #facc15);
+      color: #1f2933;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.45);
+    }
+
+    .btn-primary span.icon {
+      font-size: 1.1rem;
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.7rem 1.2rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.15);
+      color: #e5e7eb;
+      font-size: 0.9rem;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .hero-media {
+      background: rgba(15, 23, 42, 0.45);
+      border-radius: var(--radius-lg);
+      padding: 1.1rem;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.6);
+    }
+
+    .hero-video-placeholder {
+      border-radius: 12px;
+      background: radial-gradient(circle at top left, rgba(251, 191, 36, 0.3), transparent 60%),
+        radial-gradient(circle at bottom right, rgba(56, 189, 248, 0.25), transparent 60%),
+        #020617;
+      padding: 1.1rem;
+      min-height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 0.9rem;
+      position: relative;
+      color: #e5e7eb;
+    }
+
+    .hero-video-badge {
+      position: absolute;
+      top: 0.9rem;
+      left: 0.9rem;
+      font-size: 0.75rem;
+      background: rgba(15, 23, 42, 0.8);
+      padding: 0.25rem 0.65rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+    }
+
+    .hero-caption {
+      margin-top: 0.7rem;
+      font-size: 0.8rem;
+      color: #cbd5f5;
+      opacity: 0.95;
+    }
+
+    /* PROJECT SECTION */
+
+    #project {
+      margin-top: 1.4rem;
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr);
+      gap: 1.8rem;
+    }
+
+    @media (min-width: 880px) {
+      .project-grid {
+        grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      }
+    }
+
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.8rem;
+      font-size: 0.8rem;
+    }
+
+    .pill {
+      padding: 0.28rem 0.7rem;
+      border-radius: 999px;
+      background: #eef2ff;
+      color: #374151;
+      border: 1px solid #e0e7ff;
+    }
+
+    .project-card-title {
+      font-size: 1rem;
+      margin-bottom: 0.4rem;
+      color: var(--primary);
+    }
+
+    .project-list {
+      margin-top: 0.4rem;
+      padding-left: 1.2rem;
+      font-size: 0.93rem;
+      color: var(--text-muted);
+    }
+
+    .project-list li {
+      margin-bottom: 0.3rem;
+    }
+
+    /* EXPERIENCE / GAMEPLAY SECTION */
+
+    .experience-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1.3rem;
+    }
+
+    @media (min-width: 820px) {
+      .experience-grid {
+        grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+      }
+    }
+
+    .round-list {
+      margin: 0.3rem 0 0.7rem;
+      padding-left: 1.2rem;
+      font-size: 0.93rem;
+      color: var(--text-muted);
+    }
+
+    .round-list li {
+      margin-bottom: 0.35rem;
+    }
+
+    .feature-cards {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
       gap: 1rem;
     }
 
-    #photo-gallery img {
-      width: 100%;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+    @media (min-width: 640px) {
+      .feature-cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
     }
 
-    /* Team Section */
-    #team {
+    .feature-card-title {
+      font-size: 0.95rem;
+      color: var(--primary-light);
+      margin-bottom: 0.25rem;
+    }
+
+    .feature-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      margin-bottom: 0.3rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .feature-text {
+      font-size: 0.87rem;
+      color: var(--text-muted);
+    }
+
+    .feature-text ul {
+      margin: 0.3rem 0 0;
+      padding-left: 1.1rem;
+    }
+
+    /* VIDEO AND PHOTOS */
+
+    #media {
+      padding-top: 3.7rem;
+    }
+
+    .media-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1.5rem;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1.8rem;
     }
 
-    .member {
-      background: white;
-      border-radius: 10px;
-      padding: 1rem;
+    @media (min-width: 880px) {
+      .media-grid {
+        grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+      }
+    }
+
+    .video-wrapper {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-soft);
+      background: #000;
+    }
+
+    .video-wrapper iframe {
+      display: block;
+      width: 100%;
+      height: 320px;
+      border: none;
+    }
+
+    .video-note {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      padding: 0.6rem 0.9rem;
+      background: #f3f4ff;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    @media (min-width: 900px) {
+      .video-wrapper iframe {
+        height: 360px;
+      }
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.9rem;
+      margin-top: 0.7rem;
+    }
+
+    .gallery-item {
+      border-radius: 12px;
+      overflow: hidden;
+      background: #e5e7eb;
+      border: 1px solid var(--border-subtle);
+      height: 130px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       text-align: center;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      padding: 0.6rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
     }
 
-    .member img {
-      width: 120px;
-      height: 120px;
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
       object-fit: cover;
-      border-radius: 50%;
-      margin-bottom: 0.75rem;
+      display: block;
     }
+
+    .gallery-tag {
+      position: absolute;
+      top: 0.4rem;
+      left: 0.4rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      background: rgba(24, 40, 72, 0.9);
+      color: #f9fafb;
+    }
+
+    .gallery-item-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* TEAM SECTION */
+
+    #team {
+      padding-top: 3.7rem;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .team-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-soft);
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 0.9rem;
+      align-items: center;
+    }
+
+    .avatar-circle {
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #f97316, #facc15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: #111827;
+    }
+
+    .team-name {
+      font-size: 1.05rem;
+      margin-bottom: 0.2rem;
+      color: var(--primary);
+    }
+
+    .team-role {
+      font-size: 0.8rem;
+      color: #f97316;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      margin-bottom: 0.35rem;
+    }
+
+    .team-bio {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* FOOTER */
 
     footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 1.5rem 0 2rem;
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
       text-align: center;
-      padding: 1rem;
-      background-color: #e5e7eb;
-      color: #555;
+      background: #f3f4ff;
     }
 
+    footer span.highlight {
+      color: var(--primary-light);
+      font-weight: 600;
+    }
+
+    @media (max-width: 640px) {
+      header.hero {
+        text-align: left;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
   </style>
 </head>
 <body>
-  <header>
-    <h1>VR Exposure Therapy Project</h1>
-    <p>Exploring immersive technology to aid mental health treatment</p>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="#top" class="nav-logo">VR <span>Chaotic</span> Kitchen</a>
+      <ul class="nav-links">
+        <li><a href="#project">Project</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#media">Media</a></li>
+        <li><a href="#team">Team</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero" id="top">
+    <div class="container">
+      <div class="hero-inner">
+        <div>
+          <div class="hero-badge">
+            <span class="icon">🍳</span>
+            UGA - Introduction to Virtual Reality Final Project
+          </div>
+          <h1 class="hero-title">
+            VR Chaotic Kitchen
+            <span class="hero-highlight">- Two player cooking show in VR</span>
+          </h1>
+          <p class="hero-subtitle">
+            Players race through a shared pantry, cook under a short timer, and react to chaos events while an AI judge scores each plate. The goal is to feel like contestants on a cooking competition show while practicing teamwork and decision making under pressure.
+          </p>
+          <div class="hero-meta">
+            <span class="hero-pill">Platform - Meta Quest 3</span>
+            <span class="hero-pill">Mode - Two player competitive</span>
+            <span class="hero-pill">Engine - Unity</span>
+          </div>
+          <div class="hero-actions">
+            <a href="#media" class="btn-primary">
+              <span class="icon">▶</span>
+              Watch advertisement video
+            </a>
+            <a href="#project" class="btn-secondary">
+              <span class="icon">📋</span>
+              Read project overview
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-media">
+          <div class="hero-video-placeholder">
+            <div class="hero-video-badge">Ad video coming soon</div>
+            <div>
+              <strong>Final trailer placeholder</strong>
+              <p>
+                Once the advertisement video is recorded and uploaded, this area and the Media section below will show the full trailer that walks through a single round from theme reveal to judging.
+              </p>
+            </div>
+          </div>
+          <p class="hero-caption">
+            VR Chaotic Kitchen is a short high energy experience built for lab demos and public showcases.
+          </p>
+        </div>
+      </div>
+    </div>
   </header>
 
   <main>
-    <section id="project-description">
-      <h2>Project Description</h2>
-      <p>
-        Our project focuses on creating a virtual reality (VR) experience designed for exposure therapy.
-        The goal is to provide a safe, controlled environment where individuals can gradually confront
-        and overcome their fears or anxieties using immersive simulation.
-      </p>
-      <p>
-        This initiative combines psychology, technology, and design to make therapeutic practices
-        more accessible and effective.
-      </p>
+    <!-- PROJECT DESCRIPTION -->
+    <section id="project">
+      <div class="container">
+        <h2>Project Description</h2>
+        <div class="project-grid">
+          <div>
+            <p class="muted">
+              VR Chaotic Kitchen is a collaborative competition set in a stylized studio kitchen. At the start of each round, a large screen reveals a theme such as Pasta Night, Breakfast, or Comfort Food. Both players rush to a shared pantry, grab ingredients, and return to their stations to build a dish that fits the theme before the timer runs out.
+            </p>
+            <p class="muted">
+              During the cooking phase, light hearted chaos events disrupt the normal flow - ingredients teleport, tools behave in strange ways, or the stove forces players to move pans. When the timer ends, plates move to a central judging counter where an AI host assigns scores and announces the winner.
+            </p>
+            <div class="pill-list">
+              <span class="pill">Shared pantry system</span>
+              <span class="pill">Round based cooking</span>
+              <span class="pill">AI judging and scoring</span>
+              <span class="pill">Short high energy sessions</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3 class="project-card-title">Experience Goals</h3>
+            <ul class="project-list">
+              <li>Make players feel like they are on a cooking show set with a clear round structure.</li>
+              <li>Encourage constant communication and light rivalry between two players.</li>
+              <li>Use simple interactions like grabbing, chopping, and placing to keep the focus on strategy, not controls.</li>
+              <li>Introduce chaos events that are funny but readable so players can quickly recover and adapt.</li>
+              <li>Keep visuals clean and low poly so it runs smoothly on the Meta Quest 3 during demos.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <section id="photo-gallery">
-      <h2>Project Photos</h2>
-      <img src="photo1.jpg" alt="VR headset demo">
-      <img src="photo2.jpg" alt="Development screenshot">
-      <!-- Add more images as needed -->
+    <!-- EXPERIENCE / GAMEPLAY -->
+    <section id="experience">
+      <div class="container">
+        <h2>Gameplay and Skills</h2>
+        <div class="experience-grid">
+          <div>
+            <h3>Round structure</h3>
+            <ol class="round-list">
+              <li><strong>Theme reveal</strong> - The big screen announces the round theme and shows a quick host line.</li>
+              <li><strong>Pantry rush</strong> - Both players sprint to the shared pantry to collect ingredients they think fit the theme.</li>
+              <li><strong>Cooking phase</strong> - Players chop, cook, and assemble dishes at their stations while chaos events trigger in the background.</li>
+              <li><strong>Plating and garnish</strong> - In the final seconds, players place their plates on the judging counter and add any last touches.</li>
+              <li><strong>Judging</strong> - The AI host evaluates theme fit, doneness, plating, and timing, then announces scores and the winner.</li>
+            </ol>
+
+            <h3>What the experience practices</h3>
+            <p class="muted">
+              Even though the experience is playful, it is designed as a tool for practicing soft skills, not just a game.
+            </p>
+            <ul class="round-list">
+              <li>Communication under time pressure - calling out ingredients, timers, and chaos events.</li>
+              <li>Shared resource management - the pantry is finite, so players must adapt when a key item is gone.</li>
+              <li>Flexible planning - chaos events can interrupt a plan, so players shift recipes rather than restart.</li>
+              <li>Situational awareness - tracking the other player, stove states, and timers while moving in VR.</li>
+            </ul>
+          </div>
+
+          <div class="feature-cards">
+            <div class="card">
+              <div class="feature-tag">Mechanic</div>
+              <div class="feature-card-title">Shared pantry</div>
+              <p class="feature-text">
+                Both players pull ingredients from the same shelves, so early decisions matter. Do you grab safe basics or rush for special items that might push your dish over the edge.
+              </p>
+            </div>
+
+            <div class="card">
+              <div class="feature-tag">System</div>
+              <div class="feature-card-title">Controlled chaos events</div>
+              <p class="feature-text">
+                A simple chaos manager triggers short events during the cooking phase.
+              </p>
+              <ul class="feature-text">
+                <li>Teleporting ingredients between stations.</li>
+                <li>Levitating or spinning items that are harder to grab.</li>
+                <li>Small stove flare ups that force players to move pans.</li>
+              </ul>
+            </div>
+
+            <div class="card">
+              <div class="feature-tag">Feedback</div>
+              <div class="feature-card-title">AI host judging</div>
+              <p class="feature-text">
+                The AI judge uses template rules tied to each theme to score plates and give short feedback lines so players understand why they won or lost.
+              </p>
+            </div>
+
+            <div class="card">
+              <div class="feature-tag">Use cases</div>
+              <div class="feature-card-title">Where this fits</div>
+              <p class="feature-text">
+                VR Chaotic Kitchen is designed for lab demos, workshop activities, and team icebreakers where instructors want a short experience that sparks discussion about teamwork and handling chaos.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
+    <!-- MEDIA -->
+    <section id="media">
+      <div class="container">
+        <h2>Advertisement Video and Project Photos</h2>
+        <div class="media-grid">
+          <div>
+            <div class="video-wrapper">
+              <!-- Replace VIDEO_ID_HERE with your real YouTube video id when the ad is ready -->
+              <iframe
+                src="https://www.youtube.com/embed/VIDEO_ID_HERE"
+                title="VR Chaotic Kitchen Advertisement Video"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+              </iframe>
+              <div class="video-note">
+                This is a placeholder embed. After we upload our final advertisement video for the project, we will update the link above with the correct YouTube id.
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <p class="muted">
+              The advertisement video will show one complete round - from the moment the theme appears on the big screen to the final judging scores. It is meant for visitors who browse this site outside of the classroom demo.
+            </p>
+            <div class="gallery-grid">
+              <!-- Placeholders -->
+              <div class="gallery-item">
+                Pantry layout and starting positions for both players.
+              </div>
+              <div class="gallery-item">
+                In game view from a cooking station with the stove and plate.
+              </div>
+              <div class="gallery-item">
+                Example of a chaos event that moves ingredients around the kitchen.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TEAM -->
     <section id="team">
-      <h2>Meet the Team</h2>
+      <div class="container">
+        <h2>Meet the Team</h2>
+        <p class="muted">
+          VR Chaotic Kitchen is developed by a two person team for the Introduction to Virtual Reality final project at the University of Georgia.
+        </p>
 
-      <div class="member">
-        <img src="member1.jpg" alt="Team Member 1">
-        <h3>Member Name 1</h3>
-        <p><strong>Role:</strong> VR Developer</p>
-        <p>Brief bio about this team member — skills, background, or their contribution to the project.</p>
+        <div class="team-grid">
+          <article class="team-card">
+            <div class="avatar-circle">JE</div>
+            <div>
+              <div class="team-name">Jalen Edusei</div>
+              <div class="team-role">Role - TBD</div>
+              <p class="team-bio">
+                Jalen is a Computer Systems Engineering student at the University of Georgia. For VR Chaotic Kitchen, he focuses on interaction design, system behavior, and connecting the experience back to communication and teamwork skills.
+              </p>
+            </div>
+          </article>
+
+          <article class="team-card">
+            <div class="avatar-circle">JL</div>
+            <div>
+              <div class="team-name">Jean-Guy Leconte</div>
+              <div class="team-role">Role - TBD</div>
+              <p class="team-bio">
+                Jean-Guy -
+              </p>
+            </div>
+          </article>
+        </div>
       </div>
-
-      <div class="member">
-        <img src="member2.jpg" alt="Team Member 2">
-        <h3>Member Name 2</h3>
-        <p><strong>Role:</strong> Research Lead</p>
-        <p>Brief bio about this team member — expertise, background, or what they’re contributing.</p>
-      </div>
-
-      <!-- Add more member blocks as more people join -->
     </section>
   </main>
 
   <footer>
-    <p>&copy; 2025 VR Exposure Therapy Project Team</p>
+    <div>
+      VR Chaotic Kitchen - <span class="highlight">Introduction to Virtual Reality</span> final project at the University of Georgia.
+    </div>
   </footer>
 </body>
 </html>
