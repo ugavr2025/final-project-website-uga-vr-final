@@ -3,109 +3,100 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VR Chaotic Kitchen</title>
+  <meta name="description" content="VR Chaotic Kitchen - UGA Introduction to Virtual Reality final project." />
+  <title>VR Chaotic Kitchen - Final Project</title>
+
+  <!-- Google Font (optional) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+
   <style>
     :root {
-      --bg: #050816;
-      --bg-alt: #0b1020;
+      --primary: #182848;
+      --primary-light: #4b6cb7;
       --accent: #f97316;
-      --accent-soft: rgba(249, 115, 22, 0.12);
-      --accent-strong: #fb923c;
-      --text-main: #f9fafb;
-      --text-muted: #9ca3af;
-      --card-bg: #111827;
-      --border-subtle: #1f2937;
-      --shadow-soft: 0 14px 30px rgba(0, 0, 0, 0.45);
-      --radius-lg: 18px;
-      --radius-xl: 24px;
-      --transition-fast: 180ms ease-out;
+      --bg: #f7f7fb;
+      --text-main: #222;
+      --text-muted: #666;
+      --card-bg: #ffffff;
+      --border-subtle: #e2e6f2;
+      --shadow-soft: 0 4px 14px rgba(0, 0, 0, 0.08);
+      --radius-lg: 14px;
     }
 
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
-      margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-        Roboto, Helvetica, Arial, sans-serif;
-      background: radial-gradient(circle at top, #111827 0, #020617 52%, #000 100%);
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
       color: var(--text-main);
       line-height: 1.6;
     }
 
     a {
-      color: var(--accent-strong);
+      color: inherit;
       text-decoration: none;
     }
 
-    a:hover {
-      text-decoration: underline;
-    }
+    /* NAVBAR */
 
-    /* Top nav */
-
-    header {
-      position: sticky;
+    .navbar {
+      position: fixed;
       top: 0;
-      z-index: 20;
-      backdrop-filter: blur(16px);
-      background: linear-gradient(to right, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.9));
-      border-bottom: 1px solid rgba(31, 41, 55, 0.7);
+      left: 0;
+      width: 100%;
+      background: rgba(24, 40, 72, 0.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+      z-index: 1000;
     }
 
     .nav-inner {
-      max-width: 1040px;
+      width: 90%;
+      max-width: 1100px;
       margin: 0 auto;
-      padding: 0.8rem 1.2rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 1.5rem;
+      padding: 0.8rem 0;
     }
 
-    .logo-mark {
+    .nav-logo {
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 1rem;
+    }
+
+    .nav-logo span {
+      color: #fbbf24;
+    }
+
+    .nav-links {
+      list-style: none;
       display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .logo-pill {
-      width: 34px;
-      height: 34px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 30% 20%, #facc15, #f97316 55%, #4b1d0f 100%);
-      box-shadow: 0 0 18px rgba(248, 250, 252, 0.15);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 900;
-      font-size: 0.9rem;
-      color: #0b0f1a;
-    }
-
-    .logo-text {
-      font-weight: 600;
-      letter-spacing: 0.04em;
+      gap: 1.3rem;
       font-size: 0.95rem;
     }
 
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 1.2rem;
-      padding: 0;
-      margin: 0;
-      font-size: 0.9rem;
-    }
-
-    nav a {
-      color: var(--text-muted);
+    .nav-links a {
+      color: rgba(255, 255, 255, 0.9);
       position: relative;
-      padding-bottom: 0.1rem;
+      padding-bottom: 0.15rem;
     }
 
-    nav a::after {
+    .nav-links a::after {
       content: "";
       position: absolute;
       left: 0;
@@ -113,304 +104,232 @@
       width: 0;
       height: 2px;
       background: linear-gradient(to right, #f97316, #facc15);
-      transition: width var(--transition-fast);
+      transition: width 0.18s ease;
     }
 
-    nav a:hover {
-      color: var(--text-main);
-    }
-
-    nav a:hover::after {
+    .nav-links a:hover::after {
       width: 100%;
     }
 
-    .nav-cta {
-      display: none;
-    }
+    /* LAYOUT HELPERS */
 
-    @media (min-width: 800px) {
-      .nav-cta {
-        display: inline-flex;
-        padding: 0.4rem 0.9rem;
-        border-radius: 999px;
-        border: 1px solid rgba(249, 115, 22, 0.5);
-        background: radial-gradient(circle at 10% 0, rgba(249, 115, 22, 0.16), transparent 60%);
-        color: #fed7aa;
-        font-size: 0.8rem;
-        gap: 0.4rem;
-        align-items: center;
-        cursor: pointer;
-        text-decoration: none;
-      }
-
-      .nav-cta span.icon {
-        font-size: 1rem;
-      }
-
-      .nav-cta:hover {
-        background: radial-gradient(circle at 10% 0, rgba(249, 115, 22, 0.24), transparent 65%);
-      }
-    }
-
-    main {
-      max-width: 1040px;
+    .container {
+      width: 90%;
+      max-width: 1100px;
       margin: 0 auto;
-      padding: 1.8rem 1.2rem 3rem 1.2rem;
     }
 
-    /* Hero */
+    section {
+      padding: 4.5rem 0 3rem;
+    }
 
-    .hero {
+    h1, h2, h3 {
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    h2 {
+      font-size: 1.8rem;
+      color: var(--primary);
+      margin-bottom: 1.5rem;
+      position: relative;
+      display: inline-block;
+    }
+
+    h2::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -0.35rem;
+      width: 55px;
+      height: 3px;
+      border-radius: 999px;
+      background: linear-gradient(to right, var(--primary-light), var(--accent));
+    }
+
+    .muted {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-soft);
+      padding: 1.7rem;
+    }
+
+    /* HERO */
+
+    header.hero {
+      padding-top: 5.5rem; /* space for navbar */
+      background: linear-gradient(
+          to right,
+          rgba(24, 40, 72, 0.98),
+          rgba(75, 108, 183, 0.95)
+        );
+      color: #fff;
+    }
+
+    .hero-inner {
+      padding: 3.5rem 0 3rem;
       display: grid;
       grid-template-columns: minmax(0, 3fr);
-      gap: 2rem;
+      gap: 2.5rem;
       align-items: center;
-      margin-top: 0.5rem;
-      margin-bottom: 3rem;
     }
 
-    @media (min-width: 880px) {
-      .hero {
-        grid-template-columns: minmax(0, 3fr) minmax(0, 2.4fr);
+    @media (min-width: 900px) {
+      .hero-inner {
+        grid-template-columns: minmax(0, 3.5fr) minmax(0, 2.5fr);
       }
     }
 
-    .hero-tagline {
+    .hero-badge {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      padding: 0.35rem 0.75rem;
+      padding: 0.4rem 0.9rem;
       border-radius: 999px;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(55, 65, 81, 0.9);
-      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.5);
-      font-size: 0.78rem;
+      background: rgba(15, 23, 42, 0.5);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--text-muted);
-      margin-bottom: 1rem;
     }
 
-    .hero-tagline span.icon {
+    .hero-badge span.icon {
       font-size: 1rem;
     }
 
-    .hero h1 {
-      font-size: clamp(2rem, 4vw, 2.7rem);
-      margin: 0 0 0.8rem 0;
-      letter-spacing: 0.03em;
+    .hero-title {
+      font-size: clamp(2.3rem, 4vw, 2.9rem);
+      margin-top: 1rem;
+      margin-bottom: 0.5rem;
     }
 
-    .hero-title-highlight {
-      background: linear-gradient(to right, #f97316, #facc15);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+    .hero-highlight {
+      color: #fed7aa;
     }
 
     .hero-subtitle {
-      color: var(--text-muted);
-      font-size: 0.98rem;
-      max-width: 34rem;
+      font-size: 1rem;
+      max-width: 36rem;
+      opacity: 0.92;
     }
 
     .hero-meta {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.6rem;
-      margin-top: 1.4rem;
-      margin-bottom: 1.4rem;
-      font-size: 0.8rem;
-      color: var(--text-muted);
+      gap: 0.7rem;
+      margin: 1.4rem 0 1.5rem;
+      font-size: 0.85rem;
     }
 
-    .meta-pill {
-      padding: 0.32rem 0.7rem;
+    .hero-pill {
+      padding: 0.3rem 0.8rem;
       border-radius: 999px;
-      border: 1px solid rgba(75, 85, 99, 0.9);
-      background: rgba(15, 23, 42, 0.9);
+      background: rgba(15, 23, 42, 0.55);
+      border: 1px solid rgba(148, 163, 184, 0.6);
     }
 
     .hero-actions {
       display: flex;
       flex-wrap: wrap;
       gap: 0.9rem;
-      align-items: center;
     }
 
     .btn-primary {
-      border-radius: 999px;
-      border: none;
-      background: radial-gradient(circle at 0 0, #facc15, #f97316 45%, #7c2d12 100%);
-      color: #111827;
-      padding: 0.72rem 1.35rem;
-      font-size: 0.9rem;
-      font-weight: 600;
-      cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      box-shadow: 0 14px 30px rgba(248, 250, 252, 0.18);
+      padding: 0.7rem 1.4rem;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(to right, #f97316, #facc15);
+      color: #1f2933;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
       text-decoration: none;
+      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.45);
     }
 
     .btn-primary span.icon {
       font-size: 1.1rem;
     }
 
-    .btn-primary:hover {
-      filter: brightness(1.03);
-      transform: translateY(-1px);
-      box-shadow: 0 18px 36px rgba(248, 250, 252, 0.25);
-      transition: all var(--transition-fast);
-    }
-
     .btn-secondary {
-      border-radius: 999px;
-      border: 1px solid rgba(55, 65, 81, 0.9);
-      background: rgba(15, 23, 42, 0.85);
-      color: var(--text-main);
-      padding: 0.7rem 1.1rem;
-      font-size: 0.85rem;
       display: inline-flex;
       align-items: center;
       gap: 0.4rem;
+      padding: 0.7rem 1.2rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.15);
+      color: #e5e7eb;
+      font-size: 0.9rem;
       cursor: pointer;
       text-decoration: none;
     }
 
-    .btn-secondary:hover {
-      background: rgba(31, 41, 55, 0.95);
-      border-color: rgba(75, 85, 99, 0.9);
-      transition: all var(--transition-fast);
-    }
-
-    .hero-right {
-      border-radius: var(--radius-xl);
-      background: radial-gradient(circle at 0 0, rgba(249, 115, 22, 0.18), transparent 55%),
-        radial-gradient(circle at 100% 100%, rgba(56, 189, 248, 0.14), transparent 55%),
-        var(--card-bg);
-      border: 1px solid rgba(55, 65, 81, 0.9);
-      padding: 1rem;
-      box-shadow: var(--shadow-soft);
-    }
-
-    .hero-right-inner {
-      border-radius: 16px;
-      border: 1px solid rgba(31, 41, 55, 0.9);
-      padding: 0.85rem;
-      background: radial-gradient(circle at top, #020617, #020617 55%, #030712);
+    .hero-media {
+      background: rgba(15, 23, 42, 0.45);
+      border-radius: var(--radius-lg);
+      padding: 1.1rem;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.6);
     }
 
     .hero-video-placeholder {
-      position: relative;
       border-radius: 12px;
-      border: 1px solid rgba(30, 64, 175, 0.85);
-      background:
-        radial-gradient(circle at 15% 0, rgba(56, 189, 248, 0.45), transparent 55%),
-        radial-gradient(circle at 80% 100%, rgba(248, 113, 113, 0.35), transparent 60%),
-        linear-gradient(to bottom right, #020617, #0b1120);
-      height: 190px;
-      overflow: hidden;
+      background: radial-gradient(circle at top left, rgba(251, 191, 36, 0.3), transparent 60%),
+        radial-gradient(circle at bottom right, rgba(56, 189, 248, 0.25), transparent 60%),
+        #020617;
+      padding: 1.1rem;
+      min-height: 180px;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #e5e7eb;
       text-align: center;
       font-size: 0.9rem;
-      padding: 1rem;
+      position: relative;
+      color: #e5e7eb;
     }
 
     .hero-video-badge {
       position: absolute;
-      top: 0.7rem;
-      left: 0.7rem;
-      padding: 0.25rem 0.6rem;
+      top: 0.9rem;
+      left: 0.9rem;
+      font-size: 0.75rem;
+      background: rgba(15, 23, 42, 0.8);
+      padding: 0.25rem 0.65rem;
       border-radius: 999px;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(31, 41, 55, 0.9);
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-
-    .hero-video-badge span.icon {
-      font-size: 0.9rem;
-    }
-
-    .hero-video-glow {
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 50% 10%, rgba(248, 250, 252, 0.2), transparent 55%);
-      opacity: 0.7;
-      mix-blend-mode: screen;
-      pointer-events: none;
+      border: 1px solid rgba(148, 163, 184, 0.7);
     }
 
     .hero-caption {
       margin-top: 0.7rem;
-      font-size: 0.75rem;
-      color: var(--text-muted);
-    }
-
-    /* Sections */
-
-    section {
-      margin-bottom: 3rem;
-    }
-
-    .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      gap: 1rem;
-      margin-bottom: 1.4rem;
-    }
-
-    .section-title {
-      font-size: 1.25rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .section-title span.marker {
-      width: 10px;
-      height: 10px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 30% 0, #facc15, #f97316 75%);
-      box-shadow: 0 0 12px rgba(248, 250, 252, 0.6);
-    }
-
-    .section-kicker {
       font-size: 0.8rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
+      color: #cbd5f5;
+      opacity: 0.95;
     }
 
-    .section-body {
-      font-size: 0.92rem;
-      color: var(--text-muted);
+    /* PROJECT SECTION */
+
+    #project {
+      margin-top: 1.4rem;
     }
 
-    .section-body strong {
-      color: #e5e7eb;
-    }
-
-    /* Overview */
-
-    .layout-two-col {
+    .project-grid {
       display: grid;
       grid-template-columns: minmax(0, 3fr);
       gap: 1.8rem;
     }
 
-    @media (min-width: 820px) {
-      .layout-two-col {
+    @media (min-width: 880px) {
+      .project-grid {
         grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
       }
     }
@@ -420,218 +339,170 @@
       flex-wrap: wrap;
       gap: 0.5rem;
       margin-top: 0.8rem;
-      font-size: 0.76rem;
+      font-size: 0.8rem;
     }
 
     .pill {
-      padding: 0.28rem 0.55rem;
+      padding: 0.28rem 0.7rem;
       border-radius: 999px;
-      border: 1px solid rgba(55, 65, 81, 0.9);
-      background: rgba(15, 23, 42, 0.92);
-      color: var(--text-muted);
+      background: #eef2ff;
+      color: #374151;
+      border: 1px solid #e0e7ff;
     }
 
-    .card {
-      background: var(--card-bg);
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--border-subtle);
-      padding: 1.1rem 1.1rem 1rem 1.1rem;
-      box-shadow: var(--shadow-soft);
-    }
-
-    .card h3 {
-      margin-top: 0;
-      margin-bottom: 0.5rem;
+    .project-card-title {
       font-size: 1rem;
+      margin-bottom: 0.4rem;
+      color: var(--primary);
     }
 
-    .icon-badge {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 24px;
-      height: 24px;
-      border-radius: 999px;
-      background: var(--accent-soft);
-      color: var(--accent-strong);
-      font-size: 0.9rem;
-      margin-right: 0.3rem;
-    }
-
-    .gameplay-list {
-      padding-left: 1.1rem;
-      margin: 0.2rem 0 0.3rem 0;
-      font-size: 0.9rem;
+    .project-list {
+      margin-top: 0.4rem;
+      padding-left: 1.2rem;
+      font-size: 0.93rem;
       color: var(--text-muted);
     }
 
-    .gameplay-list li {
-      margin-bottom: 0.32rem;
+    .project-list li {
+      margin-bottom: 0.3rem;
     }
 
-    /* Features grid */
+    /* EXPERIENCE / GAMEPLAY SECTION */
 
-    .feature-grid {
+    .experience-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1.3rem;
+    }
+
+    @media (min-width: 820px) {
+      .experience-grid {
+        grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+      }
+    }
+
+    .round-list {
+      margin: 0.3rem 0 0.7rem;
+      padding-left: 1.2rem;
+      font-size: 0.93rem;
+      color: var(--text-muted);
+    }
+
+    .round-list li {
+      margin-bottom: 0.35rem;
+    }
+
+    .feature-cards {
       display: grid;
       grid-template-columns: minmax(0, 1fr);
       gap: 1rem;
     }
 
-    @media (min-width: 820px) {
-      .feature-grid {
+    @media (min-width: 640px) {
+      .feature-cards {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
 
-    .feature-card {
-      background: linear-gradient(to bottom right, #020617, #020617 55%, #030712);
-      border-radius: var(--radius-lg);
-      border: 1px solid rgba(31, 41, 55, 0.95);
-      padding: 0.95rem 1rem 0.9rem 1rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .feature-label {
-      font-size: 0.8rem;
-      color: var(--accent-strong);
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
+    .feature-card-title {
+      font-size: 0.95rem;
+      color: var(--primary-light);
       margin-bottom: 0.25rem;
     }
 
-    .feature-card h3 {
-      margin: 0 0 0.4rem 0;
-      font-size: 0.98rem;
-    }
-
-    .feature-card p {
-      margin: 0;
-      font-size: 0.86rem;
-      color: var(--text-muted);
-    }
-
-    .feature-card ul {
-      margin: 0.45rem 0 0 1rem;
-      padding: 0;
-      font-size: 0.84rem;
-      color: var(--text-muted);
-    }
-
-    .feature-card ul li {
-      margin-bottom: 0.2rem;
-    }
-
     .feature-tag {
-      position: absolute;
-      top: 0.6rem;
-      right: 0.7rem;
-      padding: 0.2rem 0.55rem;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(55, 65, 81, 0.9);
-      font-size: 0.7rem;
+      display: inline-block;
+      font-size: 0.75rem;
+      margin-bottom: 0.3rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .feature-text {
+      font-size: 0.87rem;
       color: var(--text-muted);
     }
 
-    /* Skills / learning goals */
+    .feature-text ul {
+      margin: 0.3rem 0 0;
+      padding-left: 1.1rem;
+    }
 
-    .skills-grid {
+    /* VIDEO AND PHOTOS */
+
+    #media {
+      padding-top: 3.7rem;
+    }
+
+    .media-grid {
       display: grid;
       grid-template-columns: minmax(0, 1fr);
-      gap: 0.9rem;
-    }
-
-    @media (min-width: 800px) {
-      .skills-grid {
-        grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-      }
-    }
-
-    .skill-points {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-    }
-
-    .skill-points ul {
-      padding-left: 1.1rem;
-      margin-top: 0.3rem;
-    }
-
-    .skill-pill-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-top: 0.3rem;
-    }
-
-    .skill-pill {
-      padding: 0.25rem 0.6rem;
-      border-radius: 999px;
-      background: rgba(8, 47, 73, 0.75);
-      border: 1px solid rgba(56, 189, 248, 0.3);
-      font-size: 0.76rem;
-      color: #e0f2fe;
-    }
-
-    /* Demo video and screenshots */
-
-    .video-wrapper {
-      border-radius: var(--radius-lg);
-      border: 1px solid rgba(31, 41, 55, 0.95);
-      background: #020617;
-      overflow: hidden;
-      box-shadow: var(--shadow-soft);
-    }
-
-    .video-wrapper iframe {
-      width: 100%;
-      height: 320px;
-      border: none;
-      display: block;
+      gap: 1.8rem;
     }
 
     @media (min-width: 880px) {
-      .video-wrapper iframe {
-        height: 380px;
+      .media-grid {
+        grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
       }
     }
 
+    .video-wrapper {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-soft);
+      background: #000;
+    }
+
+    .video-wrapper iframe {
+      display: block;
+      width: 100%;
+      height: 320px;
+      border: none;
+    }
+
     .video-note {
-      padding: 0.6rem 0.8rem;
-      font-size: 0.78rem;
+      font-size: 0.8rem;
       color: var(--text-muted);
-      background: #020617;
-      border-top: 1px solid rgba(31, 41, 55, 0.9);
+      padding: 0.6rem 0.9rem;
+      background: #f3f4ff;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    @media (min-width: 900px) {
+      .video-wrapper iframe {
+        height: 360px;
+      }
     }
 
     .gallery-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1fr);
-      gap: 0.75rem;
-      margin-top: 0.6rem;
-    }
-
-    @media (min-width: 720px) {
-      .gallery-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.9rem;
+      margin-top: 0.7rem;
     }
 
     .gallery-item {
       border-radius: 12px;
       overflow: hidden;
-      border: 1px solid rgba(31, 41, 55, 0.95);
-      background: linear-gradient(to bottom, #020617, #020617 45%, #030712);
+      background: #e5e7eb;
+      border: 1px solid var(--border-subtle);
       height: 130px;
-      position: relative;
-      font-size: 0.78rem;
-      color: var(--text-muted);
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 0.4rem;
+      padding: 0.6rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
     .gallery-tag {
@@ -640,623 +511,351 @@
       left: 0.4rem;
       padding: 0.2rem 0.5rem;
       border-radius: 999px;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(31, 41, 55, 0.9);
       font-size: 0.7rem;
-      color: var(--text-muted);
+      background: rgba(24, 40, 72, 0.9);
+      color: #f9fafb;
     }
 
-    /* Tech section */
-
-    .tech-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr);
-      gap: 1rem;
-    }
-
-    @media (min-width: 880px) {
-      .tech-grid {
-        grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
-      }
-    }
-
-    .tech-list {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-    }
-
-    .tech-list ul {
-      padding-left: 1.15rem;
-      margin-top: 0.35rem;
-    }
-
-    .timeline {
-      font-size: 0.86rem;
-      color: var(--text-muted);
-    }
-
-    .timeline-step {
-      border-left: 2px solid rgba(55, 65, 81, 0.9);
-      padding-left: 0.7rem;
-      margin-bottom: 0.7rem;
+    .gallery-item-inner {
       position: relative;
+      width: 100%;
+      height: 100%;
     }
 
-    .timeline-step::before {
-      content: "";
-      position: absolute;
-      left: -6px;
-      top: 0.13rem;
-      width: 10px;
-      height: 10px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 30% 0, #facc15, #f97316 75%);
-      box-shadow: 0 0 12px rgba(248, 250, 252, 0.6);
-    }
+    /* TEAM SECTION */
 
-    .timeline-step strong {
-      color: #e5e7eb;
+    #team {
+      padding-top: 3.7rem;
     }
-
-    /* Team */
 
     .team-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1fr);
-      gap: 1.1rem;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-top: 0.5rem;
     }
 
-    @media (min-width: 640px) {
-      .team-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-
-    .member-card {
+    .team-card {
       background: var(--card-bg);
       border-radius: var(--radius-lg);
       border: 1px solid var(--border-subtle);
-      padding: 1rem;
+      padding: 1.5rem;
+      box-shadow: var(--shadow-soft);
       display: grid;
       grid-template-columns: auto minmax(0, 1fr);
-      gap: 0.75rem;
+      gap: 0.9rem;
       align-items: center;
-      box-shadow: var(--shadow-soft);
     }
 
-    .member-avatar {
-      width: 72px;
-      height: 72px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 30% 0, #f97316, #4c1d95);
+    .avatar-circle {
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #f97316, #facc15);
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 700;
       font-size: 1.3rem;
-      color: #0b0f1a;
+      color: #111827;
     }
 
-    .member-meta h3 {
-      margin: 0 0 0.2rem 0;
-      font-size: 1rem;
+    .team-name {
+      font-size: 1.05rem;
+      margin-bottom: 0.2rem;
+      color: var(--primary);
     }
 
-    .member-role {
+    .team-role {
       font-size: 0.8rem;
-      color: var(--accent-strong);
+      color: #f97316;
       text-transform: uppercase;
-      letter-spacing: 0.14em;
-      margin-bottom: 0.3rem;
+      letter-spacing: 0.16em;
+      margin-bottom: 0.35rem;
     }
 
-    .member-meta p {
-      margin: 0;
-      font-size: 0.84rem;
+    .team-bio {
+      font-size: 0.9rem;
       color: var(--text-muted);
     }
 
-    .member-links {
-      margin-top: 0.4rem;
-      font-size: 0.78rem;
-      color: var(--text-muted);
-    }
-
-    .member-links a {
-      margin-right: 0.5rem;
-    }
-
-    /* Footer */
+    /* FOOTER */
 
     footer {
-      border-top: 1px solid rgba(31, 41, 55, 0.95);
-      padding: 1.4rem 1.2rem 1.8rem 1.2rem;
-      color: var(--text-muted);
-      font-size: 0.78rem;
-      text-align: center;
-      background: radial-gradient(circle at top, #020617, #020617 55%, #000);
+      border-top: 1px solid var(--border-subtle);
+      padding: 1.5rem 0 2rem;
       margin-top: 1rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-align: center;
+      background: #f3f4ff;
     }
 
     footer span.highlight {
-      color: var(--accent-strong);
+      color: var(--primary-light);
+      font-weight: 600;
     }
 
-    footer a {
-      color: #93c5fd;
+    @media (max-width: 640px) {
+      header.hero {
+        text-align: left;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+        align-items: flex-start;
+      }
     }
   </style>
 </head>
 <body>
-  <header>
+  <!-- NAVBAR -->
+  <nav class="navbar">
     <div class="nav-inner">
-      <div class="logo-mark">
-        <div class="logo-pill">VK</div>
-        <div class="logo-text">VR Chaotic Kitchen</div>
-      </div>
-      <nav>
-        <ul>
-          <li><a href="#overview">Overview</a></li>
-          <li><a href="#gameplay">Gameplay</a></li>
-          <li><a href="#skills">Skills</a></li>
-          <li><a href="#demo-video">Video</a></li>
-          <li><a href="#team">Team</a></li>
-        </ul>
-      </nav>
-      <a href="#demo-video" class="nav-cta">
-        <span class="icon">▶</span>
-        <span>Watch ad demo</span>
-      </a>
+      <a href="#top" class="nav-logo">VR <span>Chaotic</span> Kitchen</a>
+      <ul class="nav-links">
+        <li><a href="#project">Project</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#media">Media</a></li>
+        <li><a href="#team">Team</a></li>
+      </ul>
     </div>
-  </header>
+  </nav>
 
-  <main>
-    <!-- Hero -->
-    <section class="hero" id="top">
-      <div>
-        <div class="hero-tagline">
-          <span class="icon">🍳</span>
-          Mixed reality challenge in a VR cooking show
+  <!-- HERO -->
+  <header class="hero" id="top">
+    <div class="container">
+      <div class="hero-inner">
+        <div>
+          <div class="hero-badge">
+            <span class="icon">🍳</span>
+            UGA - Introduction to Virtual Reality Final Project
+          </div>
+          <h1 class="hero-title">
+            VR Chaotic Kitchen
+            <span class="hero-highlight">- Two player cooking show in VR</span>
+          </h1>
+          <p class="hero-subtitle">
+            Players race through a shared pantry, cook under a short timer, and react to chaos events while an AI judge scores each plate. The goal is to feel like contestants on a cooking competition show while practicing teamwork and decision making under pressure.
+          </p>
+          <div class="hero-meta">
+            <span class="hero-pill">Platform - Meta Quest 3</span>
+            <span class="hero-pill">Mode - Two player competitive</span>
+            <span class="hero-pill">Engine - Unity</span>
+          </div>
+          <div class="hero-actions">
+            <a href="#media" class="btn-primary">
+              <span class="icon">▶</span>
+              Watch advertisement video
+            </a>
+            <a href="#project" class="btn-secondary">
+              <span class="icon">📋</span>
+              Read project overview
+            </a>
+          </div>
         </div>
-        <h1>
-          <span class="hero-title-highlight">VR Chaotic Kitchen</span><br />
-          A two player VR cooking show showdown
-        </h1>
-        <p class="hero-subtitle">
-          Race through a shared pantry, cook under a short timer, and survive chaos events
-          while an AI judge scores your dish. VR Chaotic Kitchen is a collaborative
-          competition that trains communication, time management, and creative problem solving
-          under pressure.
-        </p>
 
-        <div class="hero-meta">
-          <span class="meta-pill">Platform: Meta Quest 3</span>
-          <span class="meta-pill">Mode: Two player competitive</span>
-          <span class="meta-pill">Course: Introduction to Virtual Reality</span>
-        </div>
-
-        <div class="hero-actions">
-          <a href="#demo-video" class="btn-primary">
-            <span class="icon">▶</span>
-            Watch advertisement video
-          </a>
-          <a href="#overview" class="btn-secondary">
-            <span class="icon">📋</span>
-            Read project overview
-          </a>
-        </div>
-      </div>
-
-      <aside class="hero-right">
-        <div class="hero-right-inner">
+        <div class="hero-media">
           <div class="hero-video-placeholder">
-            <div class="hero-video-badge">
-              <span class="icon">🎥</span>
-              Ad preview
-            </div>
-            <div class="hero-video-glow"></div>
+            <div class="hero-video-badge">Ad video coming soon</div>
             <div>
-              <strong>Gameplay trailer coming soon</strong>
+              <strong>Final trailer placeholder</strong>
               <p>
-                This space will embed our final advertisement video that shows a full round
-                from theme reveal to judging. Once the video is on YouTube, replace the
-                placeholder in the Video section below.
+                Once the advertisement video is recorded and uploaded, this area and the Media section below will show the full trailer that walks through a single round from theme reveal to judging.
               </p>
             </div>
           </div>
           <p class="hero-caption">
-            Built in Unity for the Meta Quest 3 using a low poly studio kitchen set,
-            interactive utensils, and an AI powered judging system.
+            VR Chaotic Kitchen is a short high energy experience built for lab demos and public showcases.
           </p>
         </div>
-      </aside>
-    </section>
-
-    <!-- Project overview -->
-    <section id="overview">
-      <div class="section-header">
-        <div class="section-title">
-          <span class="marker"></span>
-          <span>Project Overview</span>
-        </div>
-        <div class="section-kicker">
-          Designed to teach soft skills – not just entertain
-        </div>
       </div>
+    </div>
+  </header>
 
-      <div class="layout-two-col">
-        <div class="section-body">
-          <p>
-            VR Chaotic Kitchen is a two player VR cooking show set in a stylized studio kitchen.
-            Each round has a theme, a shared pantry, a strict time limit, and a series of short
-            chaos events that disrupt normal cooking flow. Both players pull ingredients from the
-            same pantry, rush back to their stations, and assemble a dish that fits the round
-            theme such as <strong>Pasta Night</strong> or <strong>Comfort Food</strong>.
-          </p>
-          <p>
-            At the end of the timer, dishes move to a central judging counter where an AI host
-            scores each plate based on theme fit, doneness, plating, and time. The goal is to
-            make players feel like contestants on a cooking competition show while secretly
-            training skills like shared resource negotiation, situational awareness, and
-            communication under pressure.
-          </p>
-
-          <div class="pill-list">
-            <span class="pill">Collaborative competition</span>
-            <span class="pill">Shared pantry and limited resources</span>
-            <span class="pill">Chaos event system</span>
-            <span class="pill">AI judging with breakdown</span>
-            <span class="pill">Short, high energy rounds</span>
-          </div>
-        </div>
-
-        <div class="card">
-          <h3>
-            <span class="icon-badge">🎯</span>
-            Core experience goals
-          </h3>
-          <ul class="gameplay-list">
-            <li>Feel like you are on a live cooking competition show.</li>
-            <li>Encourage teamwork, friendly rivalry, and constant communication.</li>
-            <li>Make grabbing, chopping, cooking, and plating feel tactile and satisfying.</li>
-            <li>Use chaos events to force flexible strategies and quick recovery.</li>
-            <li>Keep visuals low poly and readable so the focus stays on interaction.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- Gameplay loop and features -->
-    <section id="gameplay">
-      <div class="section-header">
-        <div class="section-title">
-          <span class="marker"></span>
-          <span>Gameplay and Features</span>
-        </div>
-        <div class="section-kicker">
-          From theme reveal to big screen winner
-        </div>
-      </div>
-
-      <div class="layout-two-col">
-        <div class="section-body">
-          <h3>Round based gameplay loop</h3>
-          <ol class="gameplay-list">
-            <li><strong>Theme reveal</strong> – a large studio screen announces the round theme such as Pasta or Breakfast, with a short host line.</li>
-            <li><strong>Pantry rush</strong> – a countdown starts and both players sprint to the shared pantry to grab ingredients before the other player does.</li>
-            <li><strong>Cooking phase</strong> – players chop, cook, mix, and assemble a dish at their own station while chaos events fire in the background.</li>
-            <li><strong>Plating and presentation</strong> – in the final seconds, players move their plates to the judging counter and add garnish for style points.</li>
-            <li><strong>Judging phase</strong> – the AI judge inspects both plates, scores them, and announces the winner on the big screen. Optionally a human judge can add a style bonus.</li>
-            <li><strong>Next round</strong> – a new theme, higher chaos, and tougher time constraints keep the session fresh.</li>
-          </ol>
-        </div>
-
-        <div class="feature-grid">
-          <article class="feature-card">
-            <div class="feature-tag">Shared pantry</div>
-            <div class="feature-label">Mechanic</div>
-            <h3>Panic at the pantry door</h3>
-            <p>
-              Both players draw from the same pantry shelves, which turns early seconds of each
-              round into a light collision of priorities. Do you grab safe essentials or rush for
-              rare ingredients that could push your dish over the top.
+  <main>
+    <!-- PROJECT DESCRIPTION -->
+    <section id="project">
+      <div class="container">
+        <h2>Project Description</h2>
+        <div class="project-grid">
+          <div>
+            <p class="muted">
+              VR Chaotic Kitchen is a collaborative competition set in a stylized studio kitchen. At the start of each round, a large screen reveals a theme such as Pasta Night, Breakfast, or Comfort Food. Both players rush to a shared pantry, grab ingredients, and return to their stations to build a dish that fits the theme before the timer runs out.
             </p>
-            <ul>
-              <li>Simple physical grabbing and placing of ingredient prefabs.</li>
-              <li>Theme rules encourage varied but understandable recipes.</li>
-              <li>Short timers keep decisions fast rather than deeply planned.</li>
-            </ul>
-          </article>
-
-          <article class="feature-card">
-            <div class="feature-tag">Chaos manager</div>
-            <div class="feature-label">System</div>
-            <h3>Controlled chaos events</h3>
-            <p>
-              A Chaos Manager triggers short disruptions during the cooking phase. Each event is
-              funny but readable, and the kitchen always returns to normal.
+            <p class="muted">
+              During the cooking phase, light hearted chaos events disrupt the normal flow - ingredients teleport, tools behave in strange ways, or the stove forces players to move pans. When the timer ends, plates move to a central judging counter where an AI host assigns scores and announces the winner.
             </p>
-            <ul>
-              <li>Teleporting ingredients between stations.</li>
-              <li>Levitating or spinning items that are harder to grab.</li>
-              <li>Giant utensils or rubber knife mode that briefly affect control.</li>
-              <li>Stove flare ups that force players to move pans.</li>
-            </ul>
-          </article>
+            <div class="pill-list">
+              <span class="pill">Shared pantry system</span>
+              <span class="pill">Round based cooking</span>
+              <span class="pill">AI judging and scoring</span>
+              <span class="pill">Short high energy sessions</span>
+            </div>
+          </div>
 
-          <article class="feature-card">
-            <div class="feature-tag">AI host</div>
-            <div class="feature-label">Feedback</div>
-            <h3>Judging and scoring breakdown</h3>
-            <p>
-              At the end of each round, an AI judge evaluates each plate using simple template
-              rules tied to the theme.
+          <div class="card">
+            <h3 class="project-card-title">Experience Goals</h3>
+            <ul class="project-list">
+              <li>Make players feel like they are on a cooking show set with a clear round structure.</li>
+              <li>Encourage constant communication and light rivalry between two players.</li>
+              <li>Use simple interactions like grabbing, chopping, and placing to keep the focus on strategy, not controls.</li>
+              <li>Introduce chaos events that are funny but readable so players can quickly recover and adapt.</li>
+              <li>Keep visuals clean and low poly so it runs smoothly on the Meta Quest 3 during demos.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE / GAMEPLAY -->
+    <section id="experience">
+      <div class="container">
+        <h2>Gameplay and Skills</h2>
+        <div class="experience-grid">
+          <div>
+            <h3>Round structure</h3>
+            <ol class="round-list">
+              <li><strong>Theme reveal</strong> - The big screen announces the round theme and shows a quick host line.</li>
+              <li><strong>Pantry rush</strong> - Both players sprint to the shared pantry to collect ingredients they think fit the theme.</li>
+              <li><strong>Cooking phase</strong> - Players chop, cook, and assemble dishes at their stations while chaos events trigger in the background.</li>
+              <li><strong>Plating and garnish</strong> - In the final seconds, players place their plates on the judging counter and add any last touches.</li>
+              <li><strong>Judging</strong> - The AI host evaluates theme fit, doneness, plating, and timing, then announces scores and the winner.</li>
+            </ol>
+
+            <h3>What the experience practices</h3>
+            <p class="muted">
+              Even though the experience is playful, it is designed as a tool for practicing soft skills, not just a game.
             </p>
-            <ul>
-              <li>Theme fit – required ingredient types present or missing.</li>
-              <li>Doneness – cooked, raw, or burnt states from the cooking system.</li>
-              <li>Plating – number of items on the plate and garnish choices.</li>
-              <li>Time bonus – extra points for finishing before the buzzer.</li>
+            <ul class="round-list">
+              <li>Communication under time pressure - calling out ingredients, timers, and chaos events.</li>
+              <li>Shared resource management - the pantry is finite, so players must adapt when a key item is gone.</li>
+              <li>Flexible planning - chaos events can interrupt a plan, so players shift recipes rather than restart.</li>
+              <li>Situational awareness - tracking the other player, stove states, and timers while moving in VR.</li>
             </ul>
-          </article>
+          </div>
 
-          <article class="feature-card">
-            <div class="feature-tag">Collaboration</div>
-            <div class="feature-label">Multiplayer</div>
-            <h3>Two player shared kitchen</h3>
-            <p>
-              Both players inhabit one continuous studio set with spatial audio and full body
-              movement. They must dodge each other around counters, negotiate ingredient picks,
-              and react to the same chaos events.
+          <div class="feature-cards">
+            <div class="card">
+              <div class="feature-tag">Mechanic</div>
+              <div class="feature-card-title">Shared pantry</div>
+              <p class="feature-text">
+                Both players pull ingredients from the same shelves, so early decisions matter. Do you grab safe basics or rush for special items that might push your dish over the edge.
+              </p>
+            </div>
+
+            <div class="card">
+              <div class="feature-tag">System</div>
+              <div class="feature-card-title">Controlled chaos events</div>
+              <p class="feature-text">
+                A simple chaos manager triggers short events during the cooking phase.
+              </p>
+              <ul class="feature-text">
+                <li>Teleporting ingredients between stations.</li>
+                <li>Levitating or spinning items that are harder to grab.</li>
+                <li>Small stove flare ups that force players to move pans.</li>
+              </ul>
+            </div>
+
+            <div class="card">
+              <div class="feature-tag">Feedback</div>
+              <div class="feature-card-title">AI host judging</div>
+              <p class="feature-text">
+                The AI judge uses template rules tied to each theme to score plates and give short feedback lines so players understand why they won or lost.
+              </p>
+            </div>
+
+            <div class="card">
+              <div class="feature-tag">Use cases</div>
+              <div class="feature-card-title">Where this fits</div>
+              <p class="feature-text">
+                VR Chaotic Kitchen is designed for lab demos, workshop activities, and team icebreakers where instructors want a short experience that sparks discussion about teamwork and handling chaos.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MEDIA -->
+    <section id="media">
+      <div class="container">
+        <h2>Advertisement Video and Project Photos</h2>
+        <div class="media-grid">
+          <div>
+            <div class="video-wrapper">
+              <!-- Replace VIDEO_ID_HERE with your real YouTube video id when the ad is ready -->
+              <iframe
+                src="https://www.youtube.com/embed/VIDEO_ID_HERE"
+                title="VR Chaotic Kitchen Advertisement Video"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+              </iframe>
+              <div class="video-note">
+                This is a placeholder embed. After we upload our final advertisement video for the project, we will update the link above with the correct YouTube id.
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <p class="muted">
+              The advertisement video will show one complete round - from the moment the theme appears on the big screen to the final judging scores. It is meant for visitors who browse this site outside of the classroom demo.
             </p>
-            <ul>
-              <li>Shared world state for ingredients, plates, timers, and chaos.</li>
-              <li>Supports friendly rivalry or future cooperative modes.</li>
-            </ul>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- Skills / learning goals -->
-    <section id="skills">
-      <div class="section-header">
-        <div class="section-title">
-          <span class="marker"></span>
-          <span>Skills and Learning Goals</span>
-        </div>
-        <div class="section-kicker">
-          Practice real world collaboration through play
-        </div>
-      </div>
-
-      <div class="skills-grid">
-        <div class="card">
-          <h3>
-            <span class="icon-badge">🧠</span>
-            What the experience teaches
-          </h3>
-          <div class="skill-points">
-            <ul>
-              <li>
-                <strong>Communication under time pressure</strong> – players need to call out
-                ingredient choices, timers, and chaos events while still working their own station.
-              </li>
-              <li>
-                <strong>Shared resource management</strong> – the pantry is finite, so players
-                must negotiate or adapt when someone else grabs a key ingredient first.
-              </li>
-              <li>
-                <strong>Flexible planning</strong> – chaos events change the environment in the
-                middle of a recipe, which pushes players to adjust plans instead of restarting.
-              </li>
-              <li>
-                <strong>Situational awareness</strong> – players track cook times, kitchen layout,
-                and the other player while moving in VR.
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="card">
-          <h3>
-            <span class="icon-badge">🏫</span>
-            Target audiences
-          </h3>
-          <p class="skill-points">
-            While the experience is playful, it is designed as a practice tool rather than pure
-            entertainment.
-          </p>
-          <div class="skill-pill-row">
-            <span class="skill-pill">Student workshop activity</span>
-            <span class="skill-pill">Team icebreaker for labs</span>
-            <span class="skill-pill">Soft skills training</span>
-            <span class="skill-pill">XR demo for showcases</span>
-          </div>
-          <p class="skill-points" style="margin-top: 0.6rem;">
-            Instructors can use it to spark discussion about teamwork, role clarity, and how
-            people respond when plans are disrupted.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Video and gallery -->
-    <section id="demo-video">
-      <div class="section-header">
-        <div class="section-title">
-          <span class="marker"></span>
-          <span>Advertisement Video and Screenshots</span>
-        </div>
-        <div class="section-kicker">
-          Final deliverable for the public showcase
-        </div>
-      </div>
-
-      <div class="layout-two-col">
-        <div>
-          <div class="video-wrapper">
-            <!-- Replace the src with your real YouTube link when ready -->
-            <iframe
-              src="https://www.youtube.com/embed/VIDEO_ID_HERE"
-              title="VR Chaotic Kitchen Advertisement Video"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen>
-            </iframe>
-            <div class="video-note">
-              Placeholder video embed. Once our advertisement video is uploaded, we will replace
-              <code>VIDEO_ID_HERE</code> with the actual YouTube video ID.
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <p class="section-body">
-            During the final demo day, this video will act as a short advertisement that explains
-            the core loop in less than a minute: theme reveal, pantry rush, chaos events, and
-            judging. It is intended for visitors who view the site on their own or discover the
-            project after the live event.
-          </p>
-          <div class="gallery-grid">
-            <div class="gallery-item">
-              <div class="gallery-tag">Concept art</div>
-              Pantry and station layout from the studio kitchen set.
-            </div>
-            <div class="gallery-item">
-              <div class="gallery-tag">In game</div>
-              Player perspective from the cooking station with stove, cutting board, and plate.
-            </div>
-            <div class="gallery-item">
-              <div class="gallery-tag">Chaos event</div>
-              Example of levitating ingredients during a teleporting event.
-            </div>
-          </div>
-          <p class="section-body" style="margin-top: 0.7rem;">
-            We will replace these placeholders with real screenshots captured from the Meta Quest 3
-            build as development progresses.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Tech and implementation -->
-    <section id="tech">
-      <div class="section-header">
-        <div class="section-title">
-          <span class="marker"></span>
-          <span>Technical Implementation</span>
-        </div>
-        <div class="section-kicker">
-          Under the hood for developers and judges
-        </div>
-      </div>
-
-      <div class="tech-grid">
-        <div class="card tech-list">
-          <h3>
-            <span class="icon-badge">🛠</span>
-            Tools and systems
-          </h3>
-          <ul>
-            <li>Unity with XR support targeting Meta Quest 3.</li>
-            <li>Low poly kitchen and food assets from curated packs for readability.</li>
-            <li>Custom Chaos Manager that schedules events and resets state.</li>
-            <li>Theme and recipe templates for flexible judging rather than fixed recipes.</li>
-            <li>Multiplayer synchronization of ingredients, timers, plates, and scores.</li>
-            <li>Simple AI judging script that produces a breakdown per category.</li>
-          </ul>
-        </div>
-
-        <div class="card timeline">
-          <h3>
-            <span class="icon-badge">📆</span>
-            Implementation phases
-          </h3>
-          <div class="timeline-step">
-            <strong>Phase 1 – Core kitchen and cooking</strong>
-            <div>
-              Layout of shared pantry and stations, ingredient states, chopping and stove
-              interactions, timer and theme UI.
-            </div>
-          </div>
-          <div class="timeline-step">
-            <strong>Phase 2 – Rounds and judging</strong>
-            <div>
-              Theme templates, judging counter, AI scoring breakdown, and scoreboard at the end
-              of each round.
-            </div>
-          </div>
-          <div class="timeline-step">
-            <strong>Phase 3 – Chaos events</strong>
-            <div>
-              Chaos Manager with initial events and banner plus audio cues for each disruption.
-            </div>
-          </div>
-          <div class="timeline-step">
-            <strong>Phase 4 – Multiplayer and polish</strong>
-            <div>
-              Two synchronized player rigs, shared state, timing and scoring tuning, lighting, and
-              final UI adjustments for the public demo.
+            <div class="gallery-grid">
+              <!-- Replace these placeholders with real screenshots like img/kitchen-1.png -->
+              <div class="gallery-item">
+                Pantry layout and starting positions for both players.
+              </div>
+              <div class="gallery-item">
+                In game view from a cooking station with the stove and plate.
+              </div>
+              <div class="gallery-item">
+                Example of a chaos event that moves ingredients around the kitchen.
+              </div>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Team -->
+    <!-- TEAM -->
     <section id="team">
-      <div class="section-header">
-        <div class="section-title">
-          <span class="marker"></span>
-          <span>Meet the Team</span>
-        </div>
-        <div class="section-kicker">
-          Two students, one chaotic kitchen
-        </div>
-      </div>
+      <div class="container">
+        <h2>Meet the Team</h2>
+        <p class="muted">
+          VR Chaotic Kitchen is developed by a two person team for the Introduction to Virtual Reality final project at the University of Georgia.
+        </p>
 
-      <div class="team-grid">
-        <article class="member-card">
-          <div class="member-avatar">JE</div>
-          <div class="member-meta">
-            <h3>Jalen Edusei</h3>
-            <div class="member-role">Role: TBD</div>
-            <p>
-              Computer Systems Engineering student at the University of Georgia. Jalen focuses on
-              VR interaction design, system architecture, and connecting the experience to real
-              world skill building.
-            </p>
-            <div class="member-links">
-              <!-- Optional links -->
-              <!-- <a href="https://www.linkedin.com/in/..." target="_blank" rel="noreferrer">LinkedIn</a> -->
-              <!-- <a href="https://github.com/..." target="_blank" rel="noreferrer">GitHub</a> -->
+        <div class="team-grid">
+          <article class="team-card">
+            <div class="avatar-circle">JE</div>
+            <div>
+              <div class="team-name">Jalen Edusei</div>
+              <div class="team-role">Role - TBD</div>
+              <p class="team-bio">
+                Jalen is a Computer Systems Engineering student at the University of Georgia. For VR Chaotic Kitchen, he focuses on interaction design, system behavior, and connecting the experience back to communication and teamwork skills.
+              </p>
             </div>
-          </div>
-        </article>
+          </article>
 
-        <article class="member-card">
-          <div class="member-avatar">JL</div>
-          <div class="member-meta">
-            <h3>Jean-Guy Leconte</h3>
-            <div class="member-role">Role: TBD</div>
-            <p>
-              Student collaborator on VR Chaotic Kitchen. Jean-Guy contributes to gameplay
-              scripting, level layout, and tuning the pacing of rounds and chaos events for a
-              smooth player experience.
-            </p>
-            <div class="member-links">
-              <!-- Optional links for portfolio or social profiles -->
+          <article class="team-card">
+            <div class="avatar-circle">JL</div>
+            <div>
+              <div class="team-name">Jean-Guy Leconte</div>
+              <div class="team-role">Role - TBD</div>
+              <p class="team-bio">
+                Jean-Guy is a student collaborator on VR Chaotic Kitchen. He contributes to gameplay scripting, chaos events, and tuning the pacing of each round so that the kitchen feels busy without becoming overwhelming for new VR players.
+              </p>
             </div>
-          </div>
-        </article>
+          </article>
+        </div>
       </div>
     </section>
   </main>
 
   <footer>
     <div>
-      Built for <span class="highlight">Introduction to Virtual Reality</span> at the University of Georgia.  
-      Public website for the VR Chaotic Kitchen final project and live lab demo.
+      VR Chaotic Kitchen - <span class="highlight">Introduction to Virtual Reality</span> final project at the University of Georgia.
     </div>
   </footer>
 </body>
